@@ -1,35 +1,34 @@
 #include <iostream>
 #include <vector>
-#include <string>
+#include <set>
 
 using namespace std;
-
 
 class NumMatrix {
 public:
     vector<vector<int>> sum;
-    int row;
-    int column;
+    int n_size = 0;
+    int m_size = 0;
     NumMatrix(vector<vector<int>>& matrix) {
-        row = matrix.size();
-        column = matrix[0].size();
-        sum = vector<vector<int>>(row+1,vector<int>(column+1,0));
-        for(int i = 1; i <= row; i++){
-            for(int j = 1; j <= column;j++){
-                sum[i][j] = sum[i][j-1] + sum[i-1][j] - sum[i-1][j-1] + matrix[i-1][j-1];
+        n_size = matrix.size();
+        m_size = matrix[0].size();
+        sum = vector<vector<int>>(n_size+1, vector<int>(m_size+1, 0));
+        for(int i = 0; i < n_size; i++){
+            for(int j = 0; j < m_size;j++){
+                if(i == j)
+                    sum[i][j] = matrix[i][j];
+                else {
+                    if(i-1 >= 0){
+                        sum[i][j]+= 
+                    }
+                }
+
             }
+
         }
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) {
-        return (sum[row2+1][col2+1]-sum[row2+1][col1]-sum[row1][col2+1]+sum[row1][col1]);
+        
     }
 };
-
-int main()
-{
-    vector<vector<int>> test = {{3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}};
-    NumMatrix a{test};
-    cout<< a.sumRegion(2,1,4,3);
-
-}

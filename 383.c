@@ -14,7 +14,7 @@ bool canConstruct(char* ransomNote, char* magazine) {
         if(filled[ransomNote[i]-'a'] <= 0){
             result = false;
             break;
-        } else {
+        }else{
             filled[ransomNote[i]-'a']--;
         }
     }
