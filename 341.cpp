@@ -70,7 +70,7 @@ public:
                 st.pop();              
                 for(int i = tmp.size()-1;i >= 0;i--)
                     st.push(tmp[i]);  
-                if(tmp.size() == 0)
+                if(st.size() == 0)
                     return false;      
             }
             return true;
