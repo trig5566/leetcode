@@ -68,6 +68,14 @@ class Solution {
 
             for(int i = 0; i < n;i++){
                 result.push_back(bin_ser(list,intervals[i][1]));
+                /*auto it = lower_bound(list.begin(),list.end(),IntVal(intervals[i][1],0,0));
+                int tmp;
+                if(it != list.end())
+                    tmp = it->i;
+                else 
+                    tmp = -1;
+
+                result.push_back(tmp);*/
             }
             /*for(int i = 0; i < n; i++){
                 cout<<"["<<list[i].l<<","<<list[i].r<<","<<list[i].i<<"]"<<endl;
