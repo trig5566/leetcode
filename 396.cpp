@@ -16,13 +16,13 @@ class Solution {
         int maxRotateFunction(vector<int>& nums) {
             int n = nums.size();
             int sum = 0;
-            int my_max = 0;
+            long my_max = LLONG_MIN;
             if(n <= 1)
                 return 0;
             for(int i : nums)
                 sum += i;
             
-            int first = 0;
+            long first = 0;
             for(int i = 0;i < n;i++){
                 first += i*nums[i];
             }

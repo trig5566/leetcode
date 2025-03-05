@@ -22,9 +22,9 @@ class Solution {
                         dp[i] += dp[i-nums[j]];
                     }
                 }
-                cout<<"dp["<<i<<"]:"<<dp[i]<<endl;
+                //cout<<"dp["<<i<<"]:"<<dp[i]<<endl;
             }
-            cout<<"MAX:"<<INT_MAX<<endl;
+            //cout<<"MAX:"<<INT_MAX<<endl;
             return dp[target];
         }
 };

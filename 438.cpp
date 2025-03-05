@@ -13,13 +13,13 @@
 
 using namespace std;
 
-
-
 class Solution {
     public:
         vector<int> findAnagrams(string s, string p) {
-            int p_len = p.size();
             vector<int> result;
+            int p_len = p.size();
+            if(p_len > s.size())
+                return result;
             vector<int> p_arr(26,0);
             vector<int> s_arr(26,0);        
             for(int i = 0; i < p_len; i++){
