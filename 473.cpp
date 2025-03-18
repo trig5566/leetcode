@@ -16,41 +16,39 @@ using namespace std;
 class Solution {
     public:
         int n = 0;
-        int stick_record = 0;
+        vector<signed char> mask;
+        int average;
         bool makesquare(vector<int>& matchsticks) {
-            bool result = 1;
             n = matchsticks.size();
+            mask = vector<signed char>(1<<n,-1);
             int sum = 0;
             if(n < 4)
                 return false;
             for(int i = 0; i < n; i++){
                 sum += matchsticks[i];
             }
-            sort(matchsticks.begin(),matchsticks.end());
             int check = sum%4;
             if(check != 0)
                 return false;
-            int average = sum/4;
-            for(int i = 0; i < 4; i++){
-                result &= can_get(matchsticks, average,stick_record);
-            }
-            return result;
+            average = sum/4;
+
+            return can_get(matchsticks,4, average,0);
         }
 
-        bool can_get(vector<int>& matchsticks, int target,int used){
-            if(target < 0)
-                return false;
-            else if(target == 0){
-                stick_record |= used;
+        bool can_get(vector<int>& matchsticks, int remain, int target,int used){
+            if(remain == 1)
                 return true;
+            if(mask[used] != -1)
+                return mask[used];
+            if(target == 0){
+                return mask[used] = can_get(matchsticks, remain-1,average,used);
             }
             for(int i = n-1; i >= 0; i--){
-                if((used & (1 << i)) == 0){
-                    if(can_get(matchsticks,target - matchsticks[i],(used | (1 << i))))
-                        return true;
+                if((used & (1 << i)) == 0 && target - matchsticks[i] >= 0 && can_get(matchsticks,remain,target - matchsticks[i],(used | (1 << i)))){
+                    return mask[used] = true;
                 }
             }
-            return false;
+            return mask[used] = false;
         }
 
 };
@@ -59,7 +57,7 @@ class Solution {
 int main()
 {
     Solution a;
-    vector<int> test = {5,5,5,5,4,4,4,4,3,3,3,3};
+    vector<int> test = {13,11,5,8,5,7,8,8,6,7,8,9,5};
     cout << a.makesquare(test);
     return 0;
 }
