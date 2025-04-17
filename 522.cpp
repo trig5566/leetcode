@@ -21,22 +21,11 @@ class Solution {
             int n = strs.size();
             vector<int> result_arr = vector<int>(n,0);
             int result = INT_MIN;
-            vector<unordered_map<string,bool>>  hm = vector<unordered_map<string,bool>>(n);
-            for(int i = 0; i < n; i++){
-                for(int mask = 1; mask < (1 << strs[i].size()); mask++){
-                    string tmp = "";
-                    for(int j = 0; j < strs[i].size();j++)
-                        if(mask & (1 << j))
-                            tmp += strs[i][j];
-                    //cout<<"tmp:"<<tmp<<endl;
-                    hm[i][tmp] = 1;
-                }
-            }
 
             for(int i = 0; i < n;i++){
                 for(int j = 0; j < n;j++){
                     if(j != i){
-                        if(hm[i][strs[j]])
+                        if(s1IsSubseqOfS2(strs[j],strs[i]))
                             result_arr[j] = -1;
                     }
                 }
@@ -49,12 +38,28 @@ class Solution {
 
             return result;
         }
+
+        bool s1IsSubseqOfS2(string s1, string s2){
+            if(s1.size() > s2.size())
+                return false;
+            int i = 0;
+            int j = 0;
+            for(i = 0; i < s1.size(); i++){
+                while(j < s2.size() && s1[i] != s2[j]) j++;
+                if(j >= s2.size())
+                    break;
+                j++;
+            }
+            return (i == s1.size());
+        }
+
     };
 
 int main()
 {
     Solution a;
-    vector<string> test = {"abcc","bcd","abc","bcc"};
+    vector<string> test = {"abcabc","abcabc","abc","abc","abc","cca"};
+    //cout<<a.s1IsSubseqOfS2(test[1],test[0]);
     cout<<a.findLUSlength(test); 
     return 0;
 }
