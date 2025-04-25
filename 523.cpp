@@ -18,36 +18,33 @@ using namespace std;
 class Solution {
     public:
 
-
         bool checkSubarraySum(vector<int>& nums, int k) {
             int n = nums.size();
-            unordered_map<int,int> dp;
-            vector<int> prefix_sum(n+1,0);
-            vector<int> prefix_mod(n+1,0);
-            int sum = 0;
+            if(n <= 1)
+                return false;
+            unordered_map<int,int> found_ht;
             int mod = 0;
-            for(int i = 1; i <= n;i++){
-                sum += nums[i-1];
-                mod = sum%k;
-                prefix_sum[i] = sum;
-                prefix_mod[i] = mod;
-                dp[mod]++;
+            found_ht[0] = -1;
+            for(int i = 0; i < n;i++){
+                mod = (mod+nums[i])%k;
+                if(found_ht.find(mod)!=found_ht.end()){
+                    if(i - found_ht[mod] > 1)
+                        return true;
+                } else {
+                    found_ht[mod] = i;
+                }
+
             }
-            for(int i = 1; i <= n;i++){
-                if(dp[prefix_mod[i]] >= 2)
-                    return true;
-            }
+
             return false;
         }
-
-
 
     };
 
 int main()
 {
     Solution a;
-    vector<int> test = {23};
-    cout<<a.checkSubarraySum(test,11);
+    vector<int> test = {1,2,12,4};
+    cout<<a.checkSubarraySum(test,6);
     return 0;
 }
