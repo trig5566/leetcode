@@ -23,51 +23,45 @@ public:
     vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
         r = board.size();
         c = board[0].size();
-        if(board[click[0]][click[1]] == 'M'){
-            board[click[0]][click[1]] = 'X';
-            return board;
-        }
-
-        vector<int> pos_ = {click[0], click[1]};
-        q.push(pos_);
-
-        while(!q.empty())
-            bfs(board);
+        dfs(click[0], click[1], board);
 
         return board;
     }
 
-#define check_point(__pos__) {if(board[__pos__[0]][__pos__[1]] == 'M')accum++; \
-        else if(board[__pos__[0]][__pos__[1]] == 'E')q.push(__pos__); \
+    void dfs(int m, int n, vector<vector<char>>& board){
+        if(board[m][n] == 'M'){
+            board[m][n] = 'X';
+            return;
         }
-    
-
-    void bfs(vector<vector<char>>& board){
-        int accum = 0;
-        
-        vector<int> pos = q.front();
-        q.pop();
-        if(pos[0] + 1 < r){
-            vector<int> pos_ = {pos[0] + 1, pos[1]};
-            check_point(pos_);
-        }
-        if(pos[0] - 1 >= 0){
-            vector<int> pos_ = {pos[0] - 1, pos[1]};
-            check_point(pos_);
-        }
-        if(pos[1] + 1 < c){
-            vector<int> pos_ = {pos[0], pos[1] + 1};
-            check_point(pos_);
-        }
-        if(pos[1] - 1 >= 0){
-            vector<int> pos_ = {pos[0], pos[1] - 1};
-            check_point(pos_);
+        int count = 0;
+        for(int i = -1; i <= 1; i++){
+            if(m+i >= 0 && m+i < r){
+                for(int j = -1; j <= 1; j++){
+                    if(n+j >= 0 && n+j < c){
+                        if(board[m+i][n+j] == 'M')
+                            count++;
+                    }
+                }
+            }
         }
 
-        if(accum == 0)
-            board[pos[0]][pos[1]] = 'B';
-        else
-            board[pos[0]][pos[1]] = '0' + accum;
+        if(count == 0){
+            board[m][n] = 'B';
+            for(int i = -1; i <= 1; i+=2){
+                if(m+i >= 0 && m+i < r){
+                    if(board[m+i][n] == 'E')
+                        dfs(m+i, n, board);
+                }
+            }
+            for(int j = -1; j <= 1; j+=2){
+                if(n+j >= 0 && n+j < c){
+                    if(board[m][n+j] == 'E')
+                        dfs(m, n+j, board);
+                }
+            }
+        } else {
+            board[m][n] = count + '0';
+        }
     }
 
 };
@@ -80,9 +74,9 @@ int main()
     board.push_back(vector<char>{'E', 'E', 'E'});
     board.push_back(vector<char>{'E', 'M', 'E'});
 
-    vector<int> pos = {1,0};
+    vector<int> pos = {0,0};
     board = a.updateBoard(board, pos);
-    //cout<<"r:"<<board.size()<<" c:"<<board[0].size()<<endl;
+    cout<<"r:"<<board.size()<<" c:"<<board[0].size()<<endl;
     cout<<" c:"<<board[0].size()<<endl;
     for(int i = 0; i < board.size();i++){
         for(int j = 0; j < board[0].size();j++)
