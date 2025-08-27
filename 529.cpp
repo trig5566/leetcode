@@ -47,16 +47,13 @@ public:
 
         if(count == 0){
             board[m][n] = 'B';
-            for(int i = -1; i <= 1; i+=2){
+            for(int i = -1; i <= 1; i++){
                 if(m+i >= 0 && m+i < r){
-                    if(board[m+i][n] == 'E')
-                        dfs(m+i, n, board);
-                }
-            }
-            for(int j = -1; j <= 1; j+=2){
-                if(n+j >= 0 && n+j < c){
-                    if(board[m][n+j] == 'E')
-                        dfs(m, n+j, board);
+                    for(int j = -1; j <= 1; j++){
+                        if(n+j >= 0 && n+j < c)
+                            if(board[m+i][n+j] == 'E')
+                                dfs(m+i, n+j, board);
+                    }
                 }
             }
         } else {
@@ -70,9 +67,9 @@ int main()
 {
     Solution a;
     vector<vector<char>> board;
-    board.push_back(vector<char>{'E', 'E', 'E'});
-    board.push_back(vector<char>{'E', 'E', 'E'});
-    board.push_back(vector<char>{'E', 'M', 'E'});
+    board.push_back(vector<char>{'E'});//, 'E', 'E'});
+    //board.push_back(vector<char>{'E', 'E', 'E'});
+    //board.push_back(vector<char>{'E', 'M', 'E'});
 
     vector<int> pos = {0,0};
     board = a.updateBoard(board, pos);
