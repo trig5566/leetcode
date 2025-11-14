@@ -76,11 +76,11 @@ public:
     }
     
     bool isEmpty() {
-        return f_p == l_p && size == 0;
+        return size == 0;
     }
     
     bool isFull() {
-        return f_p == l_p && size == max_size;
+        return size == max_size;
     }
 };
 
