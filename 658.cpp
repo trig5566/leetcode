@@ -21,25 +21,33 @@ public:
         auto find_i = lower_bound(arr.begin(), arr.end(), x);
         vector<int> result(k);        
         int l, r;
-        r = find_i - arr.begin();
-        l = r - 1;
-        int i = 0;
-        for(;i < k && l >= 0 && r < arr.size(); i++){
-            if(abs(arr[l] - x) > abs(arr[r] - x)){
-                result[i] = arr[r];
-                r++;
+        l = find_i - arr.begin();
+        if(l > 0){
+            if(abs(arr[l-1] - x) > abs(arr[l] - x)){
+                r = l+1;
             } else {
-                result[i] = arr[l];
-                l--;
+                r = l;
+                l = l-1;
             }
+        } else r = 1;
+        //cout << "l:" << l << " r:"<< r <<endl;
+        int i = 1;
+        for(;i < k && (l - 1) >= 0 && r < arr.size(); i++){
+            if(abs(arr[l-1] - x) > abs(arr[r] - x))
+                r++;
+            else
+                l--;
         }
-        if(l < 0)
-            for(;i < k;i++, r++)
-                result[i] = arr[r];
-        if(r >= arr.size())
-            for(;i < k;i++, l--)
-                result[i] = arr[l];            
-        sort(result.begin(), result.end());
+        if(l == 0)
+            for(;i < k;i++, r++);       
+        
+        if(r == arr.size())
+            for(;i < k;i++, l--);         
+        //cout << "l:" << l << " r:"<< r <<endl;
+        i = 0;       
+        for(int j = l; j < r;j++, i++)
+            result[i] = arr[j]; 
+        
         return result;
     }
 };
@@ -47,8 +55,9 @@ public:
 int main()
 {
     Solution a;
-    vector<int> test = {1, 2, 3, 4, 5};
-    vector<int> result = a.findClosestElements(test, 4, 3);
+    //vector<int> test = {1, 2, 3, 3, 3, 4, 5};
+    vector<int> test = {3,5,8,10};
+    vector<int> result = a.findClosestElements(test, 2, 15);
     for(int i: result)
         cout<<i<<" ";
     return 0;
