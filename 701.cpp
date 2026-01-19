@@ -33,20 +33,20 @@ public:
             return root;
         }
 
-        insertbst(root, val);
+        insertbst(&root, val);
         return root;
 
     }
 
-    void insertbst(TreeNode* root, int val){
-        if(root == nullptr){
-            root = new TreeNode(val);
+    void insertbst(TreeNode** root, int val){
+        if(*root == nullptr){
+            *root = new TreeNode(val);
             return ;
         }
 
-        if(root->val < val)
-            insertbst(root->right, val);
+        if((*root)->val < val)
+            insertbst(&(*root)->right, val);
         else 
-            insertbst(root->left, val);
+            insertbst(&(*root)->left, val);
     }
 };
